@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from fastapi_zeroo.app import app
 
 
-def test_root_deve_retornar_ola_mundo():
+def read_root():
     # ARRANGUE
     client = TestClient(app)
     # ACT
@@ -18,3 +18,23 @@ def test_root_deve_retornar_ola_mundo():
     # A: Arrangue - Arranjo - Organizar
     # A: act      - Executa a coisa (o SUT) - Agir
     # A: Assert   - Garanta que é A É A
+
+
+def primeira_rota():
+    client = TestClient(app)
+
+    response = client.get('home')
+
+    assert response.json == {'message': 'Meu teste'}
+    assert response.status_code == HTTPStatus.OK
+
+
+def html():
+    client = TestClient(app)
+
+    response = client.get('/teste-html')
+    assert response.status_code == HTTPStatus.OK
+    assert (
+        '<h1>O CAMIHO SÓ É DIFICIL PRA QUEM DESISTE NA METADE!!</h1>'
+        in response.text
+    )
